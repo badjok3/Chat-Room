@@ -1,7 +1,5 @@
-const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
 const mongo = require('mongodb').MongoClient;
-const client = require('socket.io').listen(3000).sockets;
+const client = require('socket.io').listen(4000).sockets;
 
 // Connect to mongo
 mongo.connect('mongodb://localhost/chatDb', function (err, db) {
@@ -9,33 +7,46 @@ mongo.connect('mongodb://localhost/chatDb', function (err, db) {
         throw err;
     }
 
-    console.log('MongoDB connected');
+    console.log('MongoDB connected...');
+
+    // Connect to socket.io
+    client.on('connection', function () {
+        let chat = db.collection('chats');
+
+        // Send status
+        let sendStatus = function (s) {
+            socket.emit('status', s);
+        };
+
+        // Get chats from database
+        chat.find().limit(100).sort({_id:1}).toArray(function (err, res) {
+            if(err) {
+                throw err;
+            }
+
+            //Emit messages
+            socket.emit('output', res);
+        });
+
+        //Handle input events
+        socket.on('input', function (data) {
+            let name = data.name;
+            let msg = data.message;
+
+            //Check for name and message
+            if(name === '' || msg === '') {
+                sendStatus('Please enter a name and message');
+            } else {
+                //Insert message
+                chat.insert({name: name, message: message}, function () {
+                    client.emit('output', [data]);
+
+                    //Send status object
+                    sendStatus({
+                        message: 'Message sent'
+                    });
+                });
+            }
+        });
+    });
 });
-
-
-
-
-// module.exports = (config) => {
-//     mongoose.connect(config.connectionString);
-//
-//     //подай ми сегашната конекция и я приеми в database
-//     let database = mongoose.connection;
-//     database.once('open', (error) => {
-//         if (error) {
-//             console.log(error);
-//             return;
-//         }
-//
-//         console.log('MongoDB ready!')
-//     });
-//
-//
-//     //заявяваме , че ще използваме долу описаните файлове и директорията им
-//     require('./../models/Role').initialize();
-//     require('./../models/User').seedAdmin();
-//     require('./../models/Article');
-//     require('./../models/Category');
-//     require('./../models/Tag');
-//     require('./../models/Comment');
-//
-// };
