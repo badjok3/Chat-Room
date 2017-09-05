@@ -1,0 +1,77 @@
+{{> header}}
+
+<div class="container">
+    <div class="well col-sm-8">
+        <h2>Chat Name</h2>
+
+        <div class="chat"></div>
+
+        <form class="form-horizontal" action="/" method="POST">
+            <!--  Nickname  -->
+            <div class="form-group">
+                <label for="nickname" class="col-sm-2">Nickname:</label>
+                <input id="nickname" name="nickname" type="text" class="form-control col-sm-8">
+            </div>
+
+            <!--  Message  -->
+
+            <div class="form-group">
+                <label for="message" class="col-sm-2">Message</label>
+                <textarea name="message" id="message" class="form-control col-sm-8"></textarea>
+            </div>
+
+            <!--  Submit Button  -->
+            <div class="form-group">
+                <div class="col-sm-12 text-center">
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="col-sm-4">
+        <h4>Public Chat Rooms</h4>
+        <ul>
+            <li>
+                Chat room
+                <a href="#" class="btn btn-default btn-xs ">Join</a>
+            </li>
+            <hr>
+            <li>
+                Another One
+                <a href="#" class="btn btn-default btn-xs ">Join</a>
+            </li>
+            <hr>
+            <li>
+                Some name
+                <a href="#" class="btn btn-default btn-xs ">Join</a>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="col-sm-4">
+        <h4></span>Users</h4>
+
+        <div class="section well">
+
+            <div class="user">
+                <a class="" href="#" id="">
+                    <img src="./public/images/userProfilePictures/lora.jpg" class="img-logged">
+                    Lora Milcheva
+                </a>
+            </div>
+
+            <div class="user">
+                <a class="" href="#" id="">
+                    <img src="./public/images/userProfilePictures/lora.jpg" class="img-logged">
+                    Some Other Name
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{{> footer}}
