@@ -1,5 +1,4 @@
 body {
-	margin-top: 50px;
 	background-color: #f9f9f9;
 	font-family: 'Raleway', sans-serif;
 }
@@ -8,7 +7,6 @@ body {
 	font-family: Raleway;
 }
 main {
-	margin-top: 70px;
 	margin-bottom: 70px;
 }
 
@@ -39,7 +37,7 @@ h1 {
 
 }
 h2{
-	margin: 0.2em 0 0.3em 0;
+	margin: 0.2em 0 0.5em 0;
 	color: #45ce4f;
 }
 h3{
@@ -120,7 +118,7 @@ hr {
 	background-color: #ffffff;
 	margin: 20px auto;
 	border-radius: 2px;
-	padding: 10px;
+	padding: 40px 10px;
 }
 .container-fullsize {
 	/*background-image: url('../images/bg_2.jpg');*/
@@ -132,12 +130,11 @@ hr {
 	background-color: #fff;
 	align-content: center;
 	text-align: center;
-	margin: 0%;
+	margin-top: -28px;
 	padding: 19%;
 }
 .home-login-container {
 	background-color: #45ce4f !important;
-	margin-top: 0;
 	margin-bottom: 0;
 	text-align: center;
 	color: #fff;
@@ -427,7 +424,8 @@ hr {
 	border: 0px solid #ededed;
 }
 .btn-default:hover {
-	background-color: #f2f2f2;
+	background-color: #38a840;
+	color: #fff;
 }
 .btn:focus,
 .btn-sm:focus,
@@ -760,7 +758,8 @@ label {
 .list-group-item {
 	position: relative;
 	display: block;
-	padding: 10px 15px;
+	min-height: 50px;
+	padding: 15px 15px;
 	margin-bottom: -1px;
 	background-color: #fff;
 	border: none;
@@ -769,22 +768,17 @@ label {
 
 .list-group-item a {
 	text-decoration: none;
+	float: right;
+	margin-top: -7px;
 }
 
 .list-group-item.active {
 	/*color: #fff;*/
 	text-transform: uppercase;
-	background-color: #f9f9f9;
+	background-color: #38a840;
 	border-color: #dddddd;
-	color: #555555;
+	color: #ffffff;
 	border-top: 0px solid #dddddd;
-}
-.list-group-item.active:hover {
-	/*color: #fff;*/
-	text-transform: uppercase;
-	background-color: #f9f9f9;
-	border-color: #dddddd;
-	color: #555555;
 }
 
 
@@ -847,7 +841,7 @@ th {
  * ------------------------------------- */
 .glyphicon {
 	color: #cfcfcf;
-	margin-right: 6px;
+	margin: 0 6px;
 }
 .glyphicon-done {
 	font-size: 16px;
@@ -990,13 +984,10 @@ footer {
 
 .chat {
 	background-color: #fff;
-	border: 0px solid #03a35b;
+	border: 0px solid #dfdfdf;
 	min-height: 300px;
 	margin: 0 0 50px 0;
-}
-
-#welcome {
-	min-width: 100%;
+	padding: 20px;
 }
 
 .user {
@@ -1025,6 +1016,11 @@ footer {
 	font-family: 'Raleway SemiBold', sans-serif;
 	text-transform: none;
 	color: #45ce4f;
+
+}
+
+header {
+	margin-bottom: 80px;
 }
 
 .header .glyphicon {
@@ -1036,4 +1032,10 @@ footer {
 ul {
 	list-style-type: none;
 	margin-left: -15px;
+}
+.img-circle {
+	border-radius: 50%;
+	padding: 5px;
+	background-color: #fff;
+	margin-right: 15px;
 }

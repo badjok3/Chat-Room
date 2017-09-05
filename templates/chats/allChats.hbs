@@ -1,23 +1,23 @@
 {{> header}}
 
 <div class="container">
-    <div class="well col-sm-8">
+    <div class="col-sm-8">
         <h2>Chat Name</h2>
-
-        <div class="chat"></div>
+        <hr>
 
         <form class="form-horizontal" action="/" method="POST">
             <!--  Nickname  -->
-            <div class="form-group">
-                <label for="nickname" class="col-sm-2">Nickname:</label>
-                <input id="nickname" name="nickname" type="text" class="form-control col-sm-8">
+            <div class="form-group col-xs-6 col-md-4">
+                <label for="nickname"></label>
+                <input id="nickname" name="nickname" type="text" class="form-control"
+                       placeholder="Please, enter a nickname">
             </div>
 
             <!--  Message  -->
-
-            <div class="form-group">
-                <label for="message" class="col-sm-2">Message</label>
-                <textarea name="message" id="message" class="form-control col-sm-8"></textarea>
+            <div class="form-group ">
+                <label for="message"></label>
+                <textarea name="message" id="message" class="form-control col-sm-8"
+                          placeholder="Type your message here:"></textarea>
             </div>
 
             <!--  Submit Button  -->
@@ -28,27 +28,56 @@
             </div>
 
         </form>
+
+
+        <div id="chat" class="chat">
+
+            <div class="media well">
+                <div class="media-left">
+                    <img src="public/images/userProfilePictures/lora.jpg" class="img-circle" style="width:60px">
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Lora{{this.name}}{{this.date}}</h4>
+                    <p>{{this.comment}}Some text</p>
+                </div>
+            </div>
+
+            <div class="media well">
+                <div class="media-left">
+                    <img src="public/images/userProfilePictures/lora.jpg" class="img-circle" style="width:60px">
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Svet{{this.name}}{{this.date}}</h4>
+                    <p>{{this.comment}}Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <div class="col-sm-4">
-        <h4>Public Chat Rooms</h4>
-        <ul>
-            <li>
+
+        <!-- All Chat Rooms -->
+        <div class="list-group">
+            <div class="list-group-item active">
+                Public Chat Rooms <span id="" class="badge pull-right"></span>
+            </div>
+
+            <div class="list-group-item">
                 Chat room
-                <a href="#" class="btn btn-default btn-xs ">Join</a>
-            </li>
-            <hr>
-            <li>
+                <a href="#" class="btn btn-default btn-xs">Join</a>
+            </div>
+
+            <div class="list-group-item">
                 Another One
-                <a href="#" class="btn btn-default btn-xs ">Join</a>
-            </li>
-            <hr>
-            <li>
+                <a href="#" class="btn btn-default btn-xs">Join</a>
+            </div>
+
+            <div class="list-group-item">
                 Some name
                 <a href="#" class="btn btn-default btn-xs ">Join</a>
-            </li>
-
-        </ul>
+            </div>
+        </div>
     </div>
 
     <div class="col-sm-4">
@@ -59,7 +88,7 @@
             <div class="user">
                 <a class="" href="#" id="">
                     <img src="./public/images/userProfilePictures/lora.jpg" class="img-logged">
-                    Lora Milcheva
+                    Lora Milcheva <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
             </div>
 
