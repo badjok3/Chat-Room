@@ -5909,7 +5909,9 @@ button.close {
 }
 .modal-header {
   padding: 15px;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid #dfdfdf;
+  margin-bottom: 15px;
+  color: #38a840;
 }
 .modal-header .close {
   margin-top: -2px;
@@ -6208,6 +6210,8 @@ button.close {
 }
 .carousel {
   position: relative;
+  height: 500px;
+  overflow: hidden;
 }
 .carousel-inner {
   position: relative;
@@ -6361,7 +6365,7 @@ button.close {
 }
 .carousel-indicators {
   position: absolute;
-  bottom: 10px;
+  top: 400px;
   left: 50%;
   z-index: 15;
   width: 60%;
@@ -6392,7 +6396,7 @@ button.close {
   position: absolute;
   left: 15%;
   right: 15%;
-  bottom: 20px;
+  top: 150px;
   z-index: 10;
   padding-top: 20px;
   padding-bottom: 20px;

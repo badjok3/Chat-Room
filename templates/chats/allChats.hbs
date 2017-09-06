@@ -1,106 +1,236 @@
 {{> header}}
+<script>
+    $(function(){
+        console.log('ready');
 
+        $('#publicChatsList div').click(markActive);
+        $('#privateChatsList div').click(markActive);
+
+        function markActive(e) {
+            e.preventDefault();
+            $that = $(this);
+            $that.parent().parent().find('div').removeClass('selected');
+            $that.parent().parent().find('a').text('join');
+            $that.addClass('selected');
+            $that.find('a').text('connected');
+        }
+    })
+</script>
 <div class="container">
-    <div class="col-sm-8">
-        <h2>Chat Name</h2>
-        <hr>
 
-        <form class="form-horizontal" action="/" method="POST">
-            <!--  Nickname  -->
-            <div class="form-group col-xs-6 col-md-4">
-                <label for="nickname"></label>
-                <input id="nickname" name="nickname" type="text" class="form-control"
-                       placeholder="Please, enter a nickname">
-            </div>
+    <!-- All Chats & Users -->
+    <div class="col-xs-4 col-md-3">
+        <div class="chats-list-container">
 
-            <!--  Message  -->
-            <div class="form-group ">
-                <label for="message"></label>
-                <textarea name="message" id="message" class="form-control col-sm-8"
-                          placeholder="Type your message here:"></textarea>
-            </div>
+            <!-- Public Chat Rooms -->
+            <div id="publicChats" class="list-group chats scroll-bar-wrap" >
+                <btn class="list-group-item active" data-toggle="collapse" href="#publicChatsList" aria-expanded="false" aria-controls="collapseExample">
+                    Public Chat Rooms <span id="" class="badge pull-right"></span>
+                </btn>
 
-            <!--  Submit Button  -->
-            <div class="form-group">
-                <div class="col-sm-12 text-center">
-                    <button type="submit" class="btn btn-primary">Post</button>
+                <div id="publicChatsList" class="scroll-box">
+                    <div class="list-group-item">
+                        Chat room
+                        <a href="#" class="btn btn-default btn-xs">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Another One
+                        <a href="#" class="btn btn-default btn-xs">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Some name
+                        <a href="#" class="btn btn-default btn-xs ">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Chat room
+                        <a href="#" class="btn btn-default btn-xs">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Another One
+                        <a href="#" class="btn btn-default btn-xs">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Some name
+                        <a href="#" class="btn btn-default btn-xs ">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Some name
+                        <a href="#" class="btn btn-default btn-xs ">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Chat room
+                        <a href="#" class="btn btn-default btn-xs">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Another One
+                        <a href="#" class="btn btn-default btn-xs">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Some name
+                        <a href="#" class="btn btn-default btn-xs ">Join</a>
+                    </div>
                 </div>
             </div>
 
-        </form>
+            <!-- Private Chat Rooms -->
+            <div id="privateChats" class="list-group chats scroll-bar-wrap" >
+                <btn class="list-group-item active" data-toggle="collapse" href="#privateChatsList" aria-expanded="false" aria-controls="collapseExample">
+                    Private Chat Rooms <span id="" class="badge pull-right"></span>
+                </btn>
 
-
-        <div id="chat" class="chat">
-
-            <div class="media well">
-                <div class="media-left">
-                    <img src="public/images/userProfilePictures/lora.jpg" class="img-circle" style="width:60px">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Lora{{this.name}}{{this.date}}</h4>
-                    <p>{{this.comment}}Some text</p>
+                <div id="privateChatsList" class="scroll-box">
+                    <div class="list-group-item">
+                        Chat room
+                        <a href="#" class="btn btn-default btn-xs">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Another One
+                        <a href="#" class="btn btn-default btn-xs">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Some name
+                        <a href="#" class="btn btn-default btn-xs ">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Chat room
+                        <a href="#" class="btn btn-default btn-xs">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Another One
+                        <a href="#" class="btn btn-default btn-xs">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Some name
+                        <a href="#" class="btn btn-default btn-xs ">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Some name
+                        <a href="#" class="btn btn-default btn-xs ">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Chat room
+                        <a href="#" class="btn btn-default btn-xs">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Another One
+                        <a href="#" class="btn btn-default btn-xs">Join</a>
+                    </div>
+                    <div class="list-group-item">
+                        Some name
+                        <a href="#" class="btn btn-default btn-xs ">Join</a>
+                    </div>
                 </div>
             </div>
 
-            <div class="media well">
-                <div class="media-left">
-                    <img src="public/images/userProfilePictures/lora.jpg" class="img-circle" style="width:60px">
+            <!-- All Users -->
+            <div class="list-group">
+                <div class="list-group-item active">
+                    Users <span id="" class="badge pull-right"></span>
                 </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Svet{{this.name}}{{this.date}}</h4>
-                    <p>{{this.comment}}Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+
+                <div class="list-group-item">
+                    <a class="" href="#" id="">
+                        <img src="./public/images/userProfilePictures/lora.jpg" class="img-logged">
+                        Lora Milcheva <span class="glyphicon glyphicon-eye-open"></span>
+                    </a>
+                </div>
+
+                <div class="list-group-item">
+                    <a class="" href="#" id="">
+                        <img src="./public/images/userProfilePictures/lora.jpg" class="img-logged">
+                        Some Other Name
+                    </a>
+                </div>
+
+                <div class="list-group-item">
+                    <a class="" href="#" id="">
+                        <img src="./public/images/userProfilePictures/lora.jpg" class="img-logged">
+                        Lora Milcheva <span class="glyphicon glyphicon-eye-open"></span>
+                    </a>
+                </div>
+
+                <div class="list-group-item">
+                    <a class="" href="#" id="">
+                        <img src="./public/images/userProfilePictures/lora.jpg" class="img-logged">
+                        Some Other Name
+                    </a>
+                </div>
+
+                <div class="list-group-item">
+                    <a class="" href="#" id="">
+                        <img src="./public/images/userProfilePictures/lora.jpg" class="img-logged">
+                        Lora Milcheva <span class="glyphicon glyphicon-eye-open"></span>
+                    </a>
+                </div>
+
+                <div class="list-group-item">
+                    <a class="" href="#" id="">
+                        <img src="./public/images/userProfilePictures/lora.jpg" class="img-logged">
+                        Some Other Name
+                    </a>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <div class="col-sm-4">
+    <!-- Active Chat -->
+    <div class="col-xs-8 col-md-9">
+        <div class="chat-container">
+            <h2>Chat Name</h2>
+            <hr>
 
-        <!-- All Chat Rooms -->
-        <div class="list-group">
-            <div class="list-group-item active">
-                Public Chat Rooms <span id="" class="badge pull-right"></span>
-            </div>
+            <form class="form-horizontal" action="/" method="POST">
+                <!--  Nickname  -->
+                <div class="form-group col-xs-6 col-md-4">
+                    <label for="nickname"></label>
+                    <input id="nickname" name="nickname" type="text" class="form-control"
+                           placeholder="Please, enter a nickname">
+                </div>
 
-            <div class="list-group-item">
-                Chat room
-                <a href="#" class="btn btn-default btn-xs">Join</a>
-            </div>
+                <!--  Message  -->
+                <div class="form-group ">
+                    <label for="message"></label>
+                    <textarea name="message" id="message" class="form-control col-sm-8"
+                              placeholder="Type your message here:"></textarea>
+                </div>
 
-            <div class="list-group-item">
-                Another One
-                <a href="#" class="btn btn-default btn-xs">Join</a>
-            </div>
+                <!--  Submit Button  -->
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <button type="submit" class="btn btn-primary">Post</button>
+                    </div>
+                </div>
 
-            <div class="list-group-item">
-                Some name
-                <a href="#" class="btn btn-default btn-xs ">Join</a>
+            </form>
+
+
+            <div id="chat" class="chat">
+
+                <div class="media well">
+                    <div class="media-left">
+                        <img src="public/images/userProfilePictures/lora.jpg" class="img-circle" style="width:60px">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Lora{{this.name}}{{this.date}}</h4>
+                        <p>{{this.comment}}Some text</p>
+                    </div>
+                </div>
+
+                <div class="media well">
+                    <div class="media-left">
+                        <img src="public/images/userProfilePictures/lora.jpg" class="img-circle" style="width:60px">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Svet{{this.name}}{{this.date}}</h4>
+                        <p>{{this.comment}}Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <div class="col-sm-4">
-        <h4></span>Users</h4>
 
-        <div class="section well">
-
-            <div class="user">
-                <a class="" href="#" id="">
-                    <img src="./public/images/userProfilePictures/lora.jpg" class="img-logged">
-                    Lora Milcheva <span class="glyphicon glyphicon-eye-open"></span>
-                </a>
-            </div>
-
-            <div class="user">
-                <a class="" href="#" id="">
-                    <img src="./public/images/userProfilePictures/lora.jpg" class="img-logged">
-                    Some Other Name
-                </a>
-            </div>
-
-        </div>
-    </div>
 </div>
 
 {{> footer}}
