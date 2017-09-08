@@ -1,52 +1,56 @@
-const mongo = require('mongodb').MongoClient;
-const client = require('socket.io').listen(4000).sockets;
+// usernames which are currently connected to the chat
+let usernames = {};
 
-// Connect to mongo
-mongo.connect('mongodb://localhost/chatDb', function (err, db) {
-    if (err) {
-        throw err;
-    }
+// rooms which are currently available in chat
+let rooms = ['room1','room2','room3'];
 
-    console.log('MongoDB connected...');
+io.sockets.on('connection', function (socket) {
 
-    // Connect to socket.io
-    client.on('connection', function () {
-        let chat = db.collection('chats');
+    // when the client emits 'adduser', this listens and executes
+    socket.on('adduser', function(username){
+        // store the username in the socket session for this client
+        socket.username = username;
+        // store the room name in the socket session for this client
+        socket.room = 'room1';
+        // add the client's username to the global list
+        usernames[username] = username;
+        // send client to room 1
+        socket.join('room1');
+        // echo to client they've connected
+        socket.emit('updatechat', 'SERVER', 'you have connected to room1');
+        // echo to room 1 that a person has connected to their room
+        socket.broadcast.to('room1').emit('updatechat', 'SERVER', username + ' has connected to this room');
+        socket.emit('updaterooms', rooms, 'room1');
+    });
 
-        // Send status
-        let sendStatus = function (s) {
-            socket.emit('status', s);
-        };
+    // when the client emits 'sendchat', this listens and executes
+    socket.on('sendchat', function (data) {
+        // we tell the client to execute 'updatechat' with 2 parameters
+        io.sockets.in(socket.room).emit('updatechat', socket.username, data);
+    });
 
-        // Get chats from database
-        chat.find().limit(100).sort({_id:1}).toArray(function (err, res) {
-            if(err) {
-                throw err;
-            }
+    socket.on('switchRoom', function(newroom){
+        // leave the current room (stored in session)
+        socket.leave(socket.room);
+        // join new room, received as function parameter
+        socket.join(newroom);
+        socket.emit('updatechat', 'SERVER', 'you have connected to '+ newroom);
+        // sent message to OLD room
+        socket.broadcast.to(socket.room).emit('updatechat', 'SERVER', socket.username+' has left this room');
+        // update socket session room title
+        socket.room = newroom;
+        socket.broadcast.to(newroom).emit('updatechat', 'SERVER', socket.username+' has joined this room');
+        socket.emit('updaterooms', rooms, newroom);
+    });
 
-            //Emit messages
-            socket.emit('output', res);
-        });
-
-        //Handle input events
-        socket.on('input', function (data) {
-            let name = data.name;
-            let msg = data.message;
-
-            //Check for name and message
-            if(name === '' || msg === '') {
-                sendStatus('Please enter a name and message');
-            } else {
-                //Insert message
-                chat.insert({name: name, message: message}, function () {
-                    client.emit('output', [data]);
-
-                    //Send status object
-                    sendStatus({
-                        message: 'Message sent'
-                    });
-                });
-            }
-        });
+    // when the user disconnects.. perform this
+    socket.on('disconnect', function(){
+        // remove the username from global usernames list
+        delete usernames[socket.username];
+        // update list of users in chat, client-side
+        io.sockets.emit('updateusers', usernames);
+        // echo globally that this client has left
+        socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+        socket.leave(socket.room);
     });
 });
