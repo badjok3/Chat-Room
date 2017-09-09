@@ -1,100 +1,75 @@
 const express = require('express'), http = require('http');
 const app = express();
 const server = http.createServer(app);
-const io = require('socket.io').listen(server);
+const client = require('socket.io').listen(server);
 const mongo = require('mongodb').MongoClient;
+const User = require('mongoose').model('User');
 
-let usernames = {};
 
-let rooms = ['room1', 'room2'];
+mongo.connect('mongodb://127.0.0.1/chatDb', function(err, db){
+    if(err){
+        throw err;
+    }
+
+    // Connect to Socket.io
+    client.on('connection', function(socket){
+        let currentRoom = $('#publicChatsList option:selected');
+        let chat = db.collection(currentRoom);
+
+        // Create function to send status
+        sendStatus = function(s){
+            socket.emit('status', s);
+        };
+
+        // Get chats from mongo collection
+        chat.find().limit(100).sort({_id:1}).toArray(function(err, res){
+            if(err){
+                throw err;
+            }
+
+            // Emit the messages
+            socket.emit('output', res);
+        });
+
+        // Handle input events
+        socket.on('input', function(data){
+            let args = req.body;
+            console.log(args);
+            console.log(data);
+            let name = User.findOne({email: args.email});
+            let message = data.message;
+
+            // Check for name and message
+            if(name == '' || message == ''){
+                // Send error status
+                sendStatus('Please enter a name and message');
+            } else {
+                // Insert message
+                chat.insert({name: name, message: message}, function(){
+                    client.emit('output', [data]);
+
+                    // Send status object
+                    sendStatus({
+                        message: 'Message sent',
+                        clear: true
+                    });
+                });
+            }
+        });
+
+        // Handle clear
+        socket.on('clear', function(data){
+            // Remove all chats from collection
+            chat.remove({}, function(){
+                // Emit cleared
+                socket.emit('cleared');
+            });
+        });
+    });
+});
 
 module.exports = {
     chat: (req, res) => {
         res.render('chatRoom/allChats');
     }
 };
-
-// Connect to mongo
-mongo.connect('mongodb://localhost/chatDb', function (err, db) {
-    if (err) {
-        throw err;
-    }
-
-    console.log('MongoDB connected...');
-    let rooms = db.collection('ChatRooms');
-
-    // Connect to socket.io
-    io.on('connection', function (socket) {
-        console.log('a user connected');
-
-        socket.on('sendchat', function (data) {
-            io.sockets.in(socket.room).emit('updatechat', socket.username, data);
-        });
-
-        // listener, whenever the server emits 'updatechat', this updates the chat body
-        socket.on('updatechat', function (username, data) {
-            $('#conversation').append('<b>' + username + ':</b> ' + data + '<br>');
-        });
-
-// listener, whenever the server emits 'updaterooms', this updates the room the client is in
-        socket.on('updaterooms', function (rooms, current_room) {
-            $('#rooms').empty();
-            $.each(rooms, function (key, value) {
-                if (value == current_room) {
-                    $('#rooms').append('<div>' + value + '</div>');
-                }
-                else {
-                    $('#rooms').append('<div><a href="#" onclick="switchRoom(\'' + value + '\')">' + value + '</a></div>');
-                }
-            });
-        });
-
-        function switchRoom(room) {
-            socket.emit('switchRoom', room);
-        }
-
-// on load of page
-        $(function () {
-            // when the client clicks SEND
-            $('#datasend').click(function () {
-                console.log('q');
-                let message = $('#data').val();
-                $('#data').val('');
-                // tell server to execute 'sendchat' and send along one parameter
-                socket.emit('sendchat', message);
-            });
-
-            // when the client hits ENTER on their keyboard
-            $('#data').keypress(function (e) {
-                if (e.which == 13) {
-                    $(this).blur();
-                    $('#datasend').focus().click();
-                }
-            });
-
-            socket.on('switchRoom', function (newroom) {
-                // leave the current room (stored in session)
-                socket.leave(socket.room);
-                // join new room, received as function parameter
-                socket.join(newroom);
-                socket.emit('updatechat', 'SERVER', 'you have connected to ' + newroom);
-                // sent message to OLD room
-                socket.broadcast.to(socket.room).emit('updatechat', 'SERVER', socket.username + ' has left this room');
-                // update socket session room title
-                socket.room = newroom;
-                socket.broadcast.to(newroom).emit('updatechat', 'SERVER', socket.username + ' has joined this room');
-                socket.emit('updaterooms', rooms, newroom);
-            });
-
-            socket.on('disconnect', function () {
-                // remove the username from global usernames list
-                delete usernames[socket.username];
-                // update list of users in chat, client-side
-                io.sockets.emit('updateusers', usernames);
-                // echo globally that this client has left
-                socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
-                socket.leave(socket.room);
-            });
-        });
-    });
-});
