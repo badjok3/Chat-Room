@@ -8,6 +8,12 @@ let usernames = {};
 
 let rooms = ['room1', 'room2'];
 
+module.exports = {
+    chat: (req, res) => {
+        res.render('chatRoom/allChats');
+    }
+};
+
 // Connect to mongo
 mongo.connect('mongodb://localhost/chatDb', function (err, db) {
     if (err) {

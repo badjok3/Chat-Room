@@ -2,49 +2,85 @@
 <html>
 <head>
     <title>New Facebook</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="/javascripts/jquery.min.js"></script>
-    <script src="/javascripts/bootstrap.js"></script>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link link rel='stylesheet' href='/stylesheets/theme_2.css'>
+    <link link rel='stylesheet' href='/stylesheets/customization.css'>
 </head>
+
+
 <body>
-    <header>
-        <div class="navbar navbar-default navbar-fixed-top text-uppercase">
-            <div class="container">
-                <div class="navbar-header">
-                    <a href="/" class="navbar-brand">New Facebook</a>
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                {{#if user}}
-                    <div class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="/user/details">My Profile({{user.email}})</a></li>
-                            <li><a href="/user/logout">Logout</a></li>
-                        </ul>
-                    </div>
-                {{/if}}
-                {{#unless user}}
-                    <div class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="/user/register">Register</a></li>
-                            <li><a href="/user/login">Login</a></li>
-                        </ul>
-                    </div>
-                {{/unless}}
-            </div>
+
+
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top text-uppercase">
+
+        <!--  Logo  -->
+        <div class="navbar-brand">
+            <a href="/" class="header">
+                <span class="glyphicon glyphicon-comment"></span><span class="">i.chat</span>
+            </a>
         </div>
-    </header>
-    {{#if error }}
-        <h2>{{error}}</h2>
-    {{/if}}
-    {{{body}}}
+
+        <!--  Navigation  -->
+        <div class="container-fluid nav-container">
+
+            {{#if user}}
+                <ul class="nav navbar-nav pull-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="">
+                            <img src="/images/userProfilePictures/lora.jpg" class="navbar-header img-logged ">
+                            Lora Milcheva <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a id="dLabelActive" href="#">My Profile</a></li>
+                            <div role="separator" class="divider"></div>
+                            <li><a id="dLabelClosed" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="" id="projectsView">
+                            My chat rooms <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a id="dLabelActive" href="#">Chat One</a></li>
+                            <div role="separator" class="divider"></div>
+                            <li><a id="dLabelClosed" href="#">Chat Two</a></li>
+                        </ul>
+                    </li>
+
+                    <a class="btn btn-sm btn-primary">New chat</a>
+                </ul>
+
+            {{/if}}
+
+            {{#unless user}}
+                <div class="nav navbar-nav pull-right">
+                    <ul>
+                        <a href="/user/login" id="loginBtn">Login</a> /
+                        <a href="/user/register" id="registerBtn"> Register</a>
+                    </ul>
+                </div>
+            {{/unless}}
+        </div>
+
+    </nav>
+</header>
+
+{{#if error }}
+    <h2>{{error}}</h2>
+{{/if}}
+
+{{{body}}}
 </body>
-<footer>
-    <div class="container modal-footer">
-        <p>ChatName &copy 2017</p>
-    </div>
-</footer>
+
+<footer>ChatName © 2017</footer>
+
 </html>

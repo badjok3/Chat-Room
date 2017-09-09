@@ -65,6 +65,8 @@ label {
     line-height: 1.4em;
 }
 
+
+
 .label-tasks {
     font-size: 14px !important;
     line-height: 1.4em;
@@ -461,6 +463,12 @@ hr {
 }
 
 .btn-default {
+    border: 0px solid #ededed;
+    background-color: #ebebeb;
+    color: #fff;
+}
+
+.list-group .btn-default {
     border: 0px solid #ededed;
     background-color: #38a840;
     color: #fff;
@@ -1099,23 +1107,27 @@ footer {
     top: 50%;
     margin-top: -20px;
 }
-
+.chat-name {
+    position: fixed;
+    top: 0;
+    width: 50%;
+    background-color: #fff;
+    padding: 100px 0 0 0;
+}
 .chat-messages {
     background-color: #fff;
     border: 0px solid #dfdfdf;
-    min-height: 300px;
+    height: 60%;
     margin: 0 0 50px 0;
-    padding: 20px;
+    padding: 180px 20px 200px 20px;
 }
 .post-message {
     background-color: #fff;
-    /*border-top: 1px solid #dfdfdf;*/
-
-    margin: 0 0 50px 0;
-    padding: 0 20px;
+    margin: 0 0 30px 0;
+    padding: 20px 0 0 0;
     position: fixed;
-    width: 71%;
-    bottom: 0px;
+    bottom: 0;
+    width: 50%;
 }
 .user {
     display: block;
@@ -1181,18 +1193,12 @@ ul {
     color: #fff;
 }
 
-.container {
-    width: 100%;
-    margin-right: auto;
-    margin-left: auto;
-    padding: 0;
-}
 
 .chat-container {
-    width: 100%;
+    /*width: 100%;*/
     margin-right: auto;
     margin-left: auto;
-    padding: 30px 20px;
+    /*padding: 30px 20px;*/
 }
 
 .chats-list-container {
@@ -1201,9 +1207,28 @@ ul {
     position: fixed;
     /*overflow: scroll;*/
     /* padding: 20px; */
-    top: 53px;
+    top: 50px;
     left: 0px;
     background-color: #38a840;
+}
+
+.user-list-container {
+    width: 13%;
+    height: 100%;
+    position: fixed;
+    /* padding: 20px; */
+    top: 50px;
+    right: 0px;
+    /*background-color: #38a840;*/
+}
+.user-list-container .list-group-item {
+    min-height: 50px;
+    padding: 15px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    color: #646464;
+    border: none;
+    border-top: 1px solid rgba(100, 100, 100, 0.2);
 }
 
 .list-group-item {
@@ -1238,7 +1263,8 @@ ul {
 
 #publicChatsList,
 #privateChatsList {
-    height: 50%;
+    height: 300px;
+
 }
 
 .scroll-bar-wrap {
@@ -1248,9 +1274,15 @@ ul {
     margin: 0em auto;
 }
 
+#users .scroll-box {
+    width: 100%;
+    height: 800px;
+    overflow-y: scroll;
+}
+
 .scroll-box {
     width: 100%;
-    height: 100%;
+    height: 300px;
     overflow-y: scroll;
 }
 
@@ -1284,6 +1316,8 @@ ul {
     opacity: 1;
     -webkit-transition: all .5s;
 }
+
+
 .link {
     color: #45ce4f;
 }

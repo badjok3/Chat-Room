@@ -6,6 +6,8 @@ const chatController = require('./../controllers/chat');
 module.exports = (app) => {
     app.get('/', homeController.index);
 
+    app.get('/chatRoom/allChats', chatController.chat);
+
     app.get('/user/register', userController.registerGet);
     app.post('/user/register', userController.registerPost);
 
