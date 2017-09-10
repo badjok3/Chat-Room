@@ -1,76 +1,112 @@
-const express = require('express'), http = require('http');
-const app = express();
-const server = http.createServer(app);
-const client = require('socket.io').listen(server);
-const mongo = require('mongodb').MongoClient;
-const User = require('mongoose').model('User');
+const Conversation = require('../models/conversation'),
+    Message = require('../models/message'),
+    User = require('mongoose').model('User');
 
-
-mongo.connect('mongodb://127.0.0.1/chatDb', function (err, db) {
-    if (err) {
-        throw err;
-    }
-
-    // Connect to Socket.io
-    client.on('connection', function (socket) {
-        let currentRoom = $('#publicChatsList option:selected');
-        let chat = db.collection(currentRoom);
-
-        // Create function to send status
-        sendStatus = function (s) {
-            socket.emit('status', s);
-        };
-
-        // Get chats from mongo collection
-        chat.find().limit(100).sort({_id: 1}).toArray(function (err, res) {
+exports.getConversations = function (req, res, next) {
+    // Only return one message from each conversation to display as snippet
+    Conversation.find({participants: req.user._id})
+        .select('_id')
+        .exec(function (err, conversations) {
             if (err) {
-                throw err;
+                res.send({error: err});
+                return next(err);
             }
 
-            // Emit the messages
-            socket.emit('output', res);
-        });
-
-        // Handle input events
-        socket.on('input', function (data) {
-            let args = req.body;
-            console.log(args);
-            console.log(data);
-            let name = User.findOne({email: args.email});
-            let message = data.message;
-
-            // Check for name and message
-            if (name == '' || message == '') {
-                // Send error status
-                sendStatus('Please enter a name and message');
-            } else {
-                // Insert message
-                chat.insert({name: name, message: message}, function () {
-                    client.emit('output', [data]);
-
-                    // Send status object
-                    sendStatus({
-                        message: 'Message sent',
-                        clear: true
+            // Set up empty array to hold conversations + most recent message
+            let fullConversations = [];
+            conversations.forEach(function (conversation) {
+                Message.find({'conversationId': conversation._id})
+                    .sort('-createdAt')
+                    .limit(1)
+                    .populate({
+                        path: "author",
+                        select: "profile.firstName profile.lastName"
+                    })
+                    .exec(function (err, message) {
+                        if (err) {
+                            res.send({error: err});
+                            return next(err);
+                        }
+                        fullConversations.push(message);
+                        if (fullConversations.length === conversations.length) {
+                            return res.status(200).json({conversations: fullConversations});
+                        }
                     });
-                });
-            }
-        });
-
-        // Handle clear
-        socket.on('clear', function (data) {
-            // Remove all chats from collection
-            chat.remove({}, function () {
-                // Emit cleared
-                socket.emit('cleared');
             });
         });
+};
+
+exports.getConversation = function(req, res, next) {
+    Message.find({ conversationId: req.params.conversationId })
+        .select('createdAt body author')
+        .sort('-createdAt')
+        .populate({
+            path: 'author',
+            select: 'profile.firstName profile.lastName'
+        })
+        .exec(function(err, messages) {
+            if (err) {
+                res.send({ error: err });
+                return next(err);
+            }
+
+            res.status(200).json({ conversation: messages });
+        });
+};
+
+exports.newConversation = function(req, res, next) {
+    if(!req.params.recipient) {
+        res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
+        return next();
+    }
+
+    if(!req.body.composedMessage) {
+        res.status(422).send({ error: 'Please enter a message.' });
+        return next();
+    }
+
+    const conversation = new Conversation({
+        participants: [req.user._id, req.params.recipient]
     });
-});
 
+    conversation.save(function(err, newConversation) {
+        if (err) {
+            res.send({ error: err });
+            return next(err);
+        }
 
-module.exports = {
-    chatGet: (req, res) => {
-        res.render('chatRoom/allChats');
-    },
+        const message = new Message({
+            conversationId: newConversation._id,
+            body: req.body.composedMessage,
+            author: req.user._id
+        });
+
+        message.save(function(err, newMessage) {
+            if (err) {
+                res.send({ error: err });
+                return next(err);
+            }
+
+            res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
+            return next();
+        });
+    });
+};
+
+exports.sendMessage = function(req, res, next) {
+    const message = new Message({
+        conversationId: req.params.conversationId,
+        body: req.body.composedMessage,
+        author: req.user._id
+    });
+
+    message.save(function(err, sentMessage) {
+        if (err) {
+            res.send({ error: err });
+            return next(err);
+        }
+
+        res.status(200).json({ message: 'Message successfully sent!' });
+        return(next);
+    });
 };
