@@ -7,7 +7,6 @@ let userSchema = mongoose.Schema(
         email: {type: String, required: true, unique: true},
         passwordHash: {type: String, required: true},
         fullName: {type: String, required: true},
-        articles: [{type: mongoose.Schema.Types.ObjectId, ref:'Article'}],
         roles: [{type: mongoose.Schema.Types.ObjectId, ref:'Role'}],
         salt: {type: String, required: true},
     }
@@ -22,15 +21,6 @@ userSchema.method ({
         return isSamePasswordHash;
     },
 
-    isAuthor: function (article) {
-        if(!article){
-            return false;
-        }
-
-        let isAuthor = article.author.equals(this.id);
-
-        return isAuthor;
-    },
 
     isInRole: function (roleName) {
        return Role.findOne({name: roleName}).then(role => {
@@ -63,7 +53,6 @@ module.exports.seedAdmin = () => {
                     email: email,
                     passwordHash: passwordHash,
                     fullName: 'Admin',
-                    articles: [],
                     salt: salt,
                     roles: roles
                 };

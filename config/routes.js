@@ -1,19 +1,12 @@
 const userController = require('./../controllers/user');
-const articleController = require('./../controllers/article');
 const homeController = require('./../controllers/home');
 const io = require('socket.io').listen(80);
 const chatController = require('./../controllers/chat');
 
-let chat = io
-    .of('/chat')
-    .on('connection', function (socket) {
-        chatController.respond(chat, socket);
-    });
-
 module.exports = (app) => {
     app.get('/', homeController.index);
 
-    app.get('/chatRoom/allChats', chatController.chat);
+    app.get('/chatRoom/allChats', chatController.chatGet);
 
     app.get('/user/register', userController.registerGet);
     app.post('/user/register', userController.registerPost);
