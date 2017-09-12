@@ -18,6 +18,6 @@ module.exports = (app) => {
     app.get('/chatRoom/newChat', chatController.getNewConversation);
     app.post('/chatRoom/newChat', chatController.newConversation);
 
-    app.get('/chatRoom/conversation/:id', chatController.joinConversation)
+    app.get('/conversation/:id', chatController.joinConversation)
 };
 

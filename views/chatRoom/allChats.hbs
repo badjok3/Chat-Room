@@ -35,11 +35,11 @@
                         <span class="caret"></span>
                     </a>
 
-                    <div id="publicChatsList" class="scroll-box">
+                    <div class="scroll-box">
                         {{#each conversations}}
                             <div class="list-group-item">
                                 {{title}}
-                                <a href="/conversation/:{{_id}}" class="btn btn-default btn-sm">Join</a>
+                                <a href="/conversation/{{this._id}}" class="btn btn-default btn-sm">Join</a>
                             </div>
                         {{/each}}
                     </div>
