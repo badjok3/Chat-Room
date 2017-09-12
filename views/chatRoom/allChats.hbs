@@ -31,83 +31,37 @@
                        aria-expanded="false"
                        aria-controls="collapseExample">
                         Public Chat Rooms
-                        <span class="badge pull-right">207{{publicChatRooms.count}}</span>
+                        <span class="badge pull-right">{{conversations.count}}</span>
                         <span class="caret"></span>
                     </a>
 
                     <div id="publicChatsList" class="scroll-box">
-
-                        <div class="list-group-item">
-                            bau {{chatRoom.name}}
-                            <a href="#" class="btn btn-default btn-sm">Join</a>
-                        </div>
-
-                        <div class="list-group-item">
-                            Chat room {{chatRoom.name}}
-                            <a href="#" class="btn btn-default btn-sm">Join</a>
-                        </div>
-
-                        <div class="list-group-item">
-                            Chat room {{chatRoom.name}}
-                            <a href="#" class="btn btn-default btn-sm">Join</a>
-                        </div>
-
-                        <div class="list-group-item">
-                            Chat room {{chatRoom.name}}
-                            <a href="#" class="btn btn-default btn-sm">Join</a>
-                        </div>
-
-                        <div class="list-group-item">
-                            Chat room {{chatRoom.name}}
-                            <a href="#" class="btn btn-default btn-sm">Join</a>
-                        </div>
-
-                        <div class="list-group-item">
-                            Chat room {{chatRoom.name}}
-                            <a href="#" class="btn btn-default btn-sm">Join</a>
-                        </div>
-
-                        <div class="list-group-item">
-                            Chat room {{chatRoom.name}}
-                            <a href="#" class="btn btn-default btn-sm">Join</a>
-                        </div>
-
-                        <div class="list-group-item">
-                            Chat room {{chatRoom.name}}
-                            <a href="#" class="btn btn-default btn-sm">Join</a>
-                        </div>
-
-                        <div class="list-group-item">
-                            Chat room {{chatRoom.name}}
-                            <a href="#" class="btn btn-default btn-sm">Join</a>
-                        </div>
-
-                        <div class="list-group-item">
-                            Chat room {{chatRoom.name}}
-                            <a href="#" class="btn btn-default btn-sm">Join</a>
-                        </div>
+                        {{#each conversations}}
+                            <div class="list-group-item">
+                                {{title}}
+                                <a href="/conversation/:{{_id}}" class="btn btn-default btn-sm">Join</a>
+                            </div>
+                        {{/each}}
                     </div>
-
-
                 </div>
 
                 <!-- Private Chat Rooms -->
-                <div id="privateChats" class="list-group  scroll-bar-wrap">
+                <!--<div id="privateChats" class="list-group  scroll-bar-wrap">-->
 
-                    <a class="list-group-item active" data-toggle="collapse" href="#privateChatsList"
-                       aria-expanded="false" aria-controls="">
-                        Private Chat Rooms
-                        <span class="badge pull-right">18{{privateChatRooms.count}}</span>
-                        <span class="caret"></span>
-                    </a>
+                <!--<a class="list-group-item active" data-toggle="collapse" href="#privateChatsList"-->
+                <!--aria-expanded="false" aria-controls="">-->
+                <!--Private Chat Rooms-->
+                <!--<span class="badge pull-right">18{{privateChatRooms.count}}</span>-->
+                <!--<span class="caret"></span>-->
+                <!--</a>-->
 
-                    <div id="privateChatsList" class="scroll-box">
-                        <div class="list-group-item">
-                            Chat room {{chatRoom.name}}
-                            <a href="#" class="btn btn-default btn-sm">Join</a>
-                        </div>
-                    </div>
-                </div>
+                <!--<div id="privateChatsList" class="scroll-box">-->
+                <!--<div class="list-group-item">-->
+                <!--Chat room {{chatRoom.name}}-->
+                <!--<a href="#" class="btn btn-default btn-sm">Join</a>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
             </div>
 
         </div>
@@ -115,9 +69,8 @@
         <!-- Active Chat Pannel -->
         <div class="col-xs-7">
             <div class="chat-container">
-
                 <div id="chatName" class="chat-name">
-                    <h3>Chat Name</h3>
+                    <h3>{{currentConversation.title}}</h3>
                     <p>Joined this chat room as <a href="#" class="link">Anton Mayday</a></p>
                     <hr>
                 </div>
@@ -131,17 +84,6 @@
                                  style="width:60px">
                         </div>
                         <div class="media-body">
-                            <h4 class="media-heading">Lora{{this.name}}{{this.date}}</h4>
-                            <p>{{this.comment}}Some text</p>
-                        </div>
-                    </div>
-
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-circle"
-                                 style="width:60px">
-                        </div>
-                        <div class="media-body">
                             <h4 class="media-heading">Svet{{this.name}}{{this.date}}</h4>
                             <p>{{this.comment}}Sed ut perspiciatis unde omnis iste natus error sit voluptatem
                                 accusantium
@@ -150,93 +92,13 @@
                                 quasi architecto beatae vitae dicta sunt explicabo.</p>
                         </div>
                     </div>
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-circle"
-                                 style="width:60px">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Lora{{this.name}}{{this.date}}</h4>
-                            <p>{{this.comment}}Some text</p>
-                        </div>
-                    </div>
 
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-logged">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Svet{{this.name}}{{this.date}}</h4>
-                            <p>{{this.comment}}Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                                accusantium
-                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                                veritatis et
-                                quasi architecto beatae vitae dicta sunt explicabo.</p>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-circle"
-                                 style="width:60px">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Lora{{this.name}}{{this.date}}</h4>
-                            <p>{{this.comment}}Some text</p>
-                        </div>
-                    </div>
-
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-circle"
-                                 style="width:60px">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Svet{{this.name}}{{this.date}}</h4>
-                            <p>{{this.comment}}Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                                accusantium
-                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                                veritatis et
-                                quasi architecto beatae vitae dicta sunt explicabo.</p>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-circle"
-                                 style="width:60px">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Lora{{this.name}}{{this.date}}</h4>
-                            <p>{{this.comment}}Some text</p>
-                        </div>
-                    </div>
-
-                    <div class="media">
-                        <div class="media-left">
-
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-circle"
-                                 style="width:60px">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Svet{{this.name}}{{this.date}}</h4>
-                            <p>{{this.comment}}Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                                accusantium
-                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                                veritatis et
-                                quasi architecto beatae vitae dicta sunt explicabo.</p>
-                        </div>
-                    </div>
                 </div>
 
 
                 <!-- Send Message -->
                 <div id="postMessage" class="post-message">
                     <form class="form-horizontal" action="/" method="post">
-                        <!--&lt;!&ndash;  Nickname  &ndash;&gt;-->
-                        <!--<div class="form-group col-xs-4">-->
-                        <!--<label for="nickname"></label>-->
-                        <!--<input id="nickname" name="nickname" type="text" class="form-control"-->
-                        <!--placeholder="Please, enter a nickname">-->
-                        <!--</div>-->
 
                         <!--  Message  -->
                         <div class="form-group ">
@@ -266,48 +128,20 @@
                        aria-expanded="false"
                        aria-controls="collapseExample">
                         Users
-                        <span class="badge pull-right">207{{publicChatRooms.count}}</span>
+                        <span class="badge pull-right">{{users.count}}</span>
                         <span class="caret"></span>
                     </a>
-
                     <div id="usersList" class="scroll-box">
-                        <div class="list-group-item">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-logged">
-                            Username One {{user.name}}
-                        </div>
-
-                        <div class="list-group-item">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-logged">
-                            Username One {{user.name}}
-                        </div>
-
-                        <div class="list-group-item">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-logged">
-                            Username One {{user.name}}
-                        </div>
-
-                        <div class="list-group-item">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-logged">
-                            Username One {{user.name}}
-                        </div>
-
-                        <div class="list-group-item">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-logged">
-                            Username One {{user.name}}
-                        </div>
-
-                        <div class="list-group-item">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-logged">
-                            Username One {{user.name}}
-                        </div>
-
-                        <div class="list-group-item">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-logged">
-                            Username One {{user.name}}
-                        </div>
+                        {{#each users}}
+                            <a href="/user/:{{_id}}">
+                            <div class="list-group-item">
+                                <img src="{{imageUrl}}" class="img-logged">
+                                {{fullName}}
+                            </div>
+                            </a>
+                        {{/each}}
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

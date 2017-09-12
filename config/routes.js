@@ -5,8 +5,6 @@ const chatController = require('./../controllers/chat');
 module.exports = (app) => {
     app.get('/', homeController.index);
 
-    // app.get('/chatRoom/allChats', chatController.chatGet);
-
     app.get('/user/register', userController.registerGet);
     app.post('/user/register', userController.registerPost);
 
@@ -15,5 +13,11 @@ module.exports = (app) => {
 
     app.get('/user/logout', userController.logout);
 
+    app.get('/chatRoom/allChats', chatController.loadPage);
+
+    app.get('/chatRoom/newChat', chatController.getNewConversation);
+    app.post('/chatRoom/newChat', chatController.newConversation);
+
+    app.get('/chatRoom/conversation/:id', chatController.joinConversation)
 };
 

@@ -24,7 +24,7 @@
         <!--  Logo  -->
         <div class="navbar-brand">
             <a href="/" class="header">
-                <span class="glyphicon glyphicon-comment"></span><span class="">i.chat</span>
+                <span class="glyphicon glyphicon-comment"></span><span class="">io.chat</span>
             </a>
         </div>
 
@@ -41,7 +41,7 @@
                         <ul class="dropdown-menu">
                             <li><a id="dLabelActive" href="#">My Profile</a></li>
                             <div role="separator" class="divider"></div>
-                            <li><a id="dLabelClosed" href="#">Logout</a></li>
+                            <li><a id="dLabelClosed" href="/user/logout">Logout</a></li>
                         </ul>
                     </li>
 
@@ -50,13 +50,14 @@
                             My chat rooms <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a id="dLabelActive" href="#">Chat One</a></li>
+                            {{#each conversations}}
+                                <li><a id="dLabelActive" href="/conversation/:{{_id}}">{{title}}</a></li>
+                            {{/each}}
                             <div role="separator" class="divider"></div>
-                            <li><a id="dLabelClosed" href="#">Chat Two</a></li>
                         </ul>
                     </li>
 
-                    <a class="btn btn-sm btn-primary">New chat</a>
+                    <a class="btn btn-sm btn-primary" href="/chatRoom/newChat">New chat</a>
                 </ul>
 
             {{/if}}

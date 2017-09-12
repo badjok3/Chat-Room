@@ -2,6 +2,20 @@ const Conversation = require('../models/conversation'),
     Message = require('../models/message'),
     User = require('mongoose').model('User');
 
+exports.loadPage = function (req, res) {
+    Conversation.find({}).then(conversations => {
+        conversations.count = conversations.length;
+        User.find({}).then(users => {
+            users.count = users.length;
+            res.render('chatRoom/allChats', {
+                conversations: conversations,
+                users: users
+            });
+        });
+    });
+
+};
+
 exports.getConversations = function (req, res, next) {
     // Only return one message from each conversation to display as snippet
     Conversation.find({participants: req.user._id})
@@ -36,77 +50,76 @@ exports.getConversations = function (req, res, next) {
         });
 };
 
-exports.getConversation = function(req, res, next) {
-    Message.find({ conversationId: req.params.conversationId })
+exports.getConversation = function (req, res, next) {
+    Message.find({conversationId: req.params.conversationId})
         .select('createdAt body author')
         .sort('-createdAt')
         .populate({
             path: 'author',
             select: 'profile.firstName profile.lastName'
         })
-        .exec(function(err, messages) {
+        .exec(function (err, messages) {
             if (err) {
-                res.send({ error: err });
+                res.send({error: err});
                 return next(err);
             }
 
-            res.status(200).json({ conversation: messages });
+            res.status(200).json({conversation: messages});
         });
 };
 
-exports.newConversation = function(req, res, next) {
-    if(!req.params.recipient) {
-        res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
-        return next();
-    }
+exports.getNewConversation = function (req, res) {
+    res.render('chatRoom/newChat');
+};
 
-    if(!req.body.composedMessage) {
-        res.status(422).send({ error: 'Please enter a message.' });
-        return next();
-    }
+exports.newConversation = function (req, res) {
+    let params = req.body;
 
     const conversation = new Conversation({
-        participants: [req.user._id, req.params.recipient]
+        title: params.title,
+        participants: [req.user._id],
     });
 
-    conversation.save(function(err, newConversation) {
+    conversation.save(function (err, newConversation) {
         if (err) {
-            res.send({ error: err });
+            res.send({error: err});
             return next(err);
         }
 
-        const message = new Message({
-            conversationId: newConversation._id,
-            body: req.body.composedMessage,
-            author: req.user._id
-        });
-
-        message.save(function(err, newMessage) {
-            if (err) {
-                res.send({ error: err });
-                return next(err);
-            }
-
-            res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
-            return next();
-        });
+        res.render('chatRoom/allChats');
     });
 };
 
-exports.sendMessage = function(req, res, next) {
+exports.joinConversation = function (req, res) {
+    let id = req.params._id;
+
+    Conversation.findById(id).then(conversation => {
+        conversation.participants.push(req.user._id);
+        conversation.save(function (err) {
+            if (err) {
+                res.send({error: err});
+                return next(err);
+            }
+
+            res.render(`conversation/:${id}`);
+        });
+    })
+};
+
+exports.sendMessage = function (req, res, next) {
     const message = new Message({
         conversationId: req.params.conversationId,
         body: req.body.composedMessage,
         author: req.user._id
     });
 
-    message.save(function(err, sentMessage) {
+    message.save(function (err, sentMessage) {
         if (err) {
-            res.send({ error: err });
+            res.send({error: err});
             return next(err);
         }
 
-        res.status(200).json({ message: 'Message successfully sent!' });
-        return(next);
+        res.status(200).json({message: 'Message successfully sent!'});
+        return (next);
     });
 };

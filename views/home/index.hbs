@@ -24,12 +24,12 @@
                     Go to chat rooms
                 </a>
             </div>
-
+            {{#unless user}}
             <p>
                 <a href="#" data-toggle="modal" data-target="#loginModal">Sign in</a> or
                 <a href="#" data-toggle="modal" data-target="#registerModal">Sign up</a> to create your own chat rooms.
             </p>
-
+            {{/unless}}
         </section>
     </div>
 </div>
