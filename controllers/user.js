@@ -99,5 +99,26 @@ module.exports = {
     logout: (req, res) => {
         req.logOut();
         res.redirect('/');
+    },
+
+    profileGet: (req, res) => {
+        res.render('user/profile');
+    },
+
+
+    profileEdit:(req,res) => {
+        let userID = req.user.id;
+        let userArgs = req.body;
+
+        console.log(userArgs);
+
+
+        User.findOne({ _id : userID }).then( user => {
+
+            console.log(user);
+            user.email = userArgs.email;
+            console.log(user);
+            user.save()
+        })
     }
 };

@@ -16,11 +16,15 @@ module.exports = (app) => {
     app.get('/user/logout', userController.logout);
 
 
+
     app.get('/conversation/conversation/:id', conversationController.getConversationByID);
     app.get('/conversation/conversation', conversationController.getCurrentConversation);
     app.get('/conversation/list', conversationController.getConversations);
     app.post('/chat/create', conversationController.newConversation);
 
-    app.post('/message/create', messageController.postMessage)
+    app.post('/message/create', messageController.postMessage);
+
+    app.get('/user/profile', userController.profileGet);
+    app.post('/user/edit', userController.profileEdit)
 };
 

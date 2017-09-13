@@ -1,0 +1,91 @@
+<script>
+
+    $(document).ready(function () {
+        $('.editButton').click(function () {
+            $('.saveButton').removeAttr('disabled').removeClass('btn-default').addClass('btn-primary');
+            $('#inputPhone').removeAttr('disabled');
+            $('#inputPhone').parent().parent().addClass('has-success');
+            $('.editButton').removeClass('btn-primary').addClass('btn-default');
+            $('.editButton').attr('disabled', 'true');
+        })
+    });
+
+    $(document).ready(function () {
+        $('.saveButton').click(function () {
+            let email = $('#inputPhone').val();
+            $.post('/user/edit/', {email: email,});
+            $(this).removeClass('btn-primary').addClass('btn-default').attr('disabled', 'true');
+            $('.editButton').removeAttr('disabled').removeClass('btn-default').addClass('btn-primary');
+            $('#inputPhone').attr('disabled', 'true');
+            $('#inputPhone').parent().parent().removeClass('has-success');
+        });
+    })
+
+</script>
+
+
+<main>
+    {{#if user}}
+
+        <div class="container">
+
+            <div class="page-header">
+                <h1>{{user.fullName}}</h1>
+            </div>
+
+            <!--  Left Side -->
+            <div class="col-sm-5 col-md-4 col-lg-3 section">
+
+                <!--  Picture  -->
+                <div class="container-no-border col-sm-12 col-xs-6">
+                    <div class="">
+                        <img class="img-user" src="{{user.imageUrl}}">
+
+                        <form class="form-inline" action="/picture/upload" method="POST" enctype="multipart/form-data">
+                            <div class="col-xs-9">
+                                <div class="row">
+                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                    <label for="upload-photo">Select File</label>
+                                    <input type="file" name="image" id="upload-photo">
+                                </div>
+
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="row">
+                                    <button type="submit" class="btn-xs btn-primary pull-right">Upload</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!--  Info  -->
+                <div class="container-no-border col-sm-12 col-xs-6">
+
+                    <h4>Contacts</h4>
+                    <hr>
+
+                    <form class="form-horizontal">
+
+                        <div class="form-group form-group-no-border">
+                            <div for="inputPhone" class="col-xs-1"><span class="glyphicon glyphicon-envelope glyphicon-profile"></span></div>
+                            <div class="col-xs-10 input-no-margin">
+                                <input id="inputPhone" class="form-control input-no-border" type="text" disabled value="{{user.email}}"/>
+                            </div>
+                        </div>
+
+                    </form>
+
+                    <div class="pull-right"style="margin-top: 20px">
+                        <button class="btn-sm btn-default saveButton" disabled>Save</button>
+                        <button class="btn-sm btn-primary editButton">Edit</button>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    {{/if}}
+</main>
