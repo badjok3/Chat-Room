@@ -465,7 +465,12 @@ hr {
 .btn-default {
     border: 0px solid #ededed;
     background-color: #ebebeb;
-    color: #fff;
+    color: #646464;
+}
+
+.btn-default:hover {
+    background-color: #dfdfdf;
+    color: #444444;
 }
 
 .list-group .btn-default {
@@ -1178,10 +1183,11 @@ ul {
 }
 
 .img-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    padding: 5px;
+    width: 50px !important;
+    height: 50px !important;
+    overflow: auto;
+    border: 1px solid #e2e2e2;
+    padding: 0px;
     background-color: #fff;
     margin-right: 15px;
 }

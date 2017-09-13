@@ -32,7 +32,6 @@
         $('#privateChatsList a').click(markActive);
 
         function markActive(e) {
-//            e.preventDefault();
             let joinButton = $(this);
             let container = $('.chats-list-container');
 
@@ -41,11 +40,8 @@
 
             joinButton.text('Leave');
             joinButton.parent().addClass('selected');
-
         }
     });
-
-    $('.list-group-item:contains("Room 1")').addClass('selected');
 
 </script>
 
@@ -142,7 +138,7 @@
 
                 {{else}}
                     <div id="chatName" class="chat-name">
-                        <h3>Please, join conversation </h3>
+                        <h3>Please, select a conversation to join. </h3>
                     </div>
                 {{/if}}
             </div>
@@ -181,17 +177,17 @@
     </div>
 
 
-    <!-- Users -->
+    <!-- Participants -->
     <div class="col-xs-2">
-        <div id="users" class="user-list-container" >
+        <div id="users" class="user-list-container">
 
-            <!-- Users List -->
+            <!-- Participants List -->
             <div id="users" class="list-group scroll-bar-wrap">
 
                 <a class="list-group-item active" data-toggle="collapse" href="#usersList"
                    aria-expanded="false"
                    aria-controls="collapseExample">
-                    Users
+                    Participants
                     <span class="badge pull-right">{{conversation.participants.length}}</span>
                     <span class="caret"></span>
                 </a>
@@ -210,5 +206,5 @@
         </div>
     </div>
 </div>
-</div>
+
 

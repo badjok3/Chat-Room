@@ -15,10 +15,11 @@ exports.getConversations = function (req, res, next) {
 };
 
 exports.getCurrentConversation = function (req, res, next) {
+
     Conversation.find({})
         .then(conversations => {
 
-            Conversation.findOne({'name': req.query.name})
+            Conversation.findOne({'name': req.body.chatName})
                 .populate('participants')
                 .then(conversation => {
 
