@@ -42,10 +42,7 @@
             joinButton.text('Leave');
             joinButton.parent().addClass('selected');
         }
-    });
-
-//    $('#chatContainer').scrollTop($('#chatContainer')[0].scrollHeight);
-
+    })
 </script>
 
 
@@ -104,7 +101,7 @@
 
         <!-- Active Chat Pannel -->
         <div class="col-xs-7">
-            <div id="chatContainer" class="chat-container">
+            <div class="chat-container">
 
                 {{#if messages}}
 
@@ -124,7 +121,7 @@
                                          style="width:60px">
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="media-heading">{{this.author.nickname}} <small>{{this.date}}</small></h4>
+                                    <h4 class="media-heading">{{this.author.nickname}} / {{this.date}}</h4>
                                     <p>{{this.body}}</p>
                                 </div>
                             </div>
@@ -144,11 +141,14 @@
             <div id="postMessage" class="post-message">
                 <form class="form-horizontal" action="/message/create" method="post">
                     <!--  Nickname  -->
-                    <!--<div class="form-group col-xs-4">-->
-                        <!--<label for="nickname"></label>-->
-                        <!--<input id="nickname" name="nickname" type="text" class="form-control"-->
-                               <!--placeholder="Please, enter a nickname">-->
-                    <!--</div>-->
+                    {{#unless user}}
+                        <div class="form-group col-xs-4">
+                            <label for="nickname"></label>
+                            <input id="nickname" name="nickname" type="text" class="form-control"
+                                   placeholder="Please, enter a nickname">
+                        </div>
+                    {{/unless}}
+
                     <input name="inputConversationId" type="text" hidden value="{{conversation._id}}">
 
                     <!--  Message  -->
