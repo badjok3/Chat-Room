@@ -23,7 +23,9 @@ exports.postMessage = function (req, res) {
                     Message.find({'conversationId': conversation._id})
                         .populate('author')
                         .then(messages => {
-                            messages.forEach(m => m.date = FormatDate.formatDate(m.timestamps));
+                            messages
+                                .reverse()
+                                .forEach(m => m.date = FormatDate.formatDate(m.timestamps));
                             res.render('conversation/conversation', {
                                 conversations: conversations,
                                 conversation: conversation,

@@ -25,7 +25,9 @@ exports.getCurrentConversation = function (req, res, next) {
                     Message.find({'conversationId': conversation._id})
                         .populate('author')
                         .then(messages => {
-                            messages.forEach(m => m.date = FormatDate.formatDate(m.timestamps));
+                            messages
+                                .reverse()
+                                .forEach(m => m.date = FormatDate.formatDate(m.timestamps));
                             res.render('conversation/conversation', {
                                 conversations: conversations,
                                 conversation: conversation,
@@ -48,7 +50,10 @@ exports.getConversationByID = function (req, res, next) {
                     Message.find({'conversationId': conversation._id})
                         .populate('author')
                         .then(messages => {
-                            messages.forEach(m => m.date = FormatDate.formatDate(m.timestamps));
+                            messages
+                                .reverse()
+                                .forEach(m => m.date = FormatDate.formatDate(m.timestamps));
+
                             res.render('conversation/conversation', {
                                 conversations: conversations,
                                 conversation: conversation,
