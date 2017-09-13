@@ -1,0 +1,28 @@
+<div class="container body-content span=8 offset=2">
+    <div class="well">
+        <form class="form-horizontal" method="post" action="/chatRoom/newChat">
+            <fieldset>
+                <legend>Create Chat</legend>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="chatTitle">Chat Title</label>
+                    <div class="col-sm-4 ">
+                        <input type="text" class="form-control" id="chatTitle" placeholder="Chat Title" name="title" required value={{title}} >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="isPrivate">Private</label>
+                    <div class="col-sm-4 ">
+                        <input type="checkbox" class="form-control" id="isPrivate" name="isPrivate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <a class="btn btn-default" href="/">Cancel</a>
+                        <button type="reset" class="btn btn-default">Reset</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
