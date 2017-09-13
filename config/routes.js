@@ -1,11 +1,11 @@
 const userController = require('./../controllers/user');
 const homeController = require('./../controllers/home');
-const chatController = require('./../controllers/chat');
+const conversationController = require('../controllers/conversation');
+const messageController = require('../controllers/message');
+
 
 module.exports = (app) => {
-    app.get('/', homeController.index);
-
-    // app.get('/chatRoom/allChats', chatController.chatGet);
+    app.get('/', homeController.indexGet);
 
     app.get('/user/register', userController.registerGet);
     app.post('/user/register', userController.registerPost);
@@ -15,5 +15,12 @@ module.exports = (app) => {
 
     app.get('/user/logout', userController.logout);
 
+
+    app.get('/conversation/conversation/:id', conversationController.getConversationByID);
+    app.get('/conversation/conversation', conversationController.getCurrentConversation);
+    app.get('/conversation/list', conversationController.getConversations);
+    app.post('/chat/create', conversationController.newConversation);
+
+    app.post('/message/create', messageController.postMessage)
 };
 

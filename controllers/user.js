@@ -29,8 +29,10 @@ module.exports = {
                     email: registerArgs.email,
                     passwordHash: passwordHash,
                     fullName: registerArgs.fullName,
+                    nickname: registerArgs.nickname,
                     salt: salt
                 };
+
 
                 let roles = [];
                 Role.findOne({name: 'User'}).then(role => {
@@ -68,9 +70,9 @@ module.exports = {
 
     loginPost: (req, res) => {
         let loginArgs = req.body;
-        User.findOne({email: loginArgs.email}).then(user => {
+        User.findOne({nickname: loginArgs.nickname}).then(user => {
             if (!user ||!user.authenticate(loginArgs.password)) {
-                let errorMsg = 'Either username or password is invalid!';
+                let errorMsg = 'Either nickname or password is invalid!';
                 loginArgs.error = errorMsg;
                 res.render('user/login', loginArgs);
                 return;

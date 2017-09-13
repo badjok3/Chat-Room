@@ -7,6 +7,7 @@ let userSchema = mongoose.Schema(
         email: {type: String, required: true, unique: true},
         passwordHash: {type: String, required: true},
         fullName: {type: String, required: true},
+        nickname: {type: String, required: true},
         roles: [{type: mongoose.Schema.Types.ObjectId, ref:'Role'}],
         salt: {type: String, required: true},
     }
@@ -53,6 +54,7 @@ module.exports.seedAdmin = () => {
                     email: email,
                     passwordHash: passwordHash,
                     fullName: 'Admin',
+                    nickname: 'zero',
                     salt: salt,
                     roles: roles
                 };

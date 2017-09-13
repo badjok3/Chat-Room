@@ -1,0 +1,198 @@
+<script>
+
+    let socket = function(io) {
+        // Set socket.io listeners.
+        io.on('connection', (socket) => {
+            console.log('a user connected');
+
+            // On conversation entry, join broadcast channel
+            socket.on('enter conversation', (conversation) => {
+                socket.join(conversation);
+                console.log('joined ' + conversation);
+            });
+
+            socket.on('leave conversation', (conversation) => {
+                socket.leave(conversation);
+                console.log('left ' + conversation);
+            });
+
+            socket.on('new message', (conversation) => {
+                io.sockets.in(conversation).emit('refresh messages', conversation);
+            });
+
+            socket.on('disconnect', () => {
+                console.log('user disconnected');
+            });
+        });
+    };
+
+    $(function () {
+
+        $('#publicChatsList a').click(markActive);
+        $('#privateChatsList a').click(markActive);
+
+        function markActive(e) {
+//            e.preventDefault();
+            let joinButton = $(this);
+            let container = $('.chats-list-container');
+
+            container.find('.selected').find('a').text('Join');
+            container.find('.selected').removeClass('selected');
+
+            joinButton.text('Leave');
+            joinButton.parent().addClass('selected');
+        }
+    })
+</script>
+
+
+
+<div class="container">
+    <div class="row">
+
+        <!-- All Chats & Users -->
+        <div class="col-xs-3">
+
+            <div class="chats-list-container">
+
+                <!-- Public Chat Rooms -->
+                <div id="publicChats" class="list-group scroll-bar-wrap">
+
+                    <a class="list-group-item active" data-toggle="collapse" href="#publicChatsList"
+                       aria-expanded="false"
+                       aria-controls="collapseExample">
+                        Public Chat Rooms
+                        <span class="badge pull-right">{{conversations.length}}</span>
+                        <span class="caret"></span>
+                    </a>
+
+                    <div id="publicChatsList" class="scroll-box">
+
+                        {{#each conversations}}
+                            <div class="list-group-item">
+                                {{this.name}}
+                                <a id="testing" href="/conversation/conversation/{{this.id}}" class="btn btn-default btn-sm">Join</a>
+                            </div>
+                        {{/each}}
+
+                    </div>
+                </div>
+
+                <!-- Private Chat Rooms -->
+                <div id="privateChats" class="list-group  scroll-bar-wrap">
+
+                    <a class="list-group-item active" data-toggle="collapse" href="#privateChatsList"
+                       aria-expanded="false" aria-controls="">
+                        Private Chat Rooms
+                        <span class="badge pull-right">18{{privateChatRooms.count}}</span>
+                        <span class="caret"></span>
+                    </a>
+
+                    <div id="privateChatsList" class="scroll-box">
+                        <div class="list-group-item">
+                            Chat room {{chatRoom.name}}
+                            <a href="#" class="btn btn-default btn-sm">Join</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Active Chat Pannel -->
+        <div class="col-xs-7">
+            <div class="chat-container">
+
+                {{#if messages}}
+
+                    <div id="chatName" class="chat-name">
+                        <h3>{{conversation.name}}</h3>
+                        <p>Joined this chat room as <a href="#" class="link">Anton Mayday</a></p>
+                        <hr>
+                    </div>
+
+                    <!-- All Messages -->
+                    <div id="chatMessages" class="chat-messages">
+
+                        {{#each messages}}
+                            <div class="media">
+                                <div class="media-left">
+                                    <img src="/images/userProfilePictures/lora.jpg" class="img-circle"
+                                         style="width:60px">
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{this.author.nickname}} / {{this.date}}</h4>
+                                    <p>{{this.body}}</p>
+                                </div>
+                            </div>
+                        {{/each}}
+
+                    </div>
+
+                {{else}}
+                    <div id="chatName" class="chat-name">
+                        <h3>Please, join conversation </h3>
+                    </div>
+                {{/if}}
+            </div>
+
+
+            <!-- Send Message -->
+            <div id="postMessage" class="post-message">
+                <form class="form-horizontal" action="/message/create" method="post">
+                    <!--&lt;!&ndash;  Nickname  &ndash;&gt;-->
+                    <!--<div class="form-group col-xs-4">-->
+                    <!--<label for="nickname"></label>-->
+                    <!--<input id="nickname" name="nickname" type="text" class="form-control"-->
+                    <!--placeholder="Please, enter a nickname">-->
+                    <!--</div>-->
+                    <input name="inputConversationId" type="text" hidden value="{{conversation._id}}">
+
+                    <!--  Message  -->
+                    <div class="form-group ">
+                        <label for="message"></label>
+                        <textarea name="message" id="message" class="form-control"
+                                  placeholder="Type your message here:"></textarea>
+                    </div>
+
+                    <!--  Submit Button  -->
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button id="datasend" class="btn btn-primary">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-2">
+        <div class="user-list-container">
+
+            <!-- Users List -->
+            <div id="users" class="list-group scroll-bar-wrap">
+
+                <a class="list-group-item active" data-toggle="collapse" href="#usersList"
+                   aria-expanded="false"
+                   aria-controls="collapseExample">
+                    Users
+                    <span class="badge pull-right">207{{publicChatRooms.count}}</span>
+                    <span class="caret"></span>
+                </a>
+
+                <div id="usersList" class="scroll-box">
+
+                    {{#each conversation.participants}}
+                        <div class="list-group-item">
+                            <img src="/images/userProfilePictures/lora.jpg" class="img-logged">
+                            {{this.nickname}}
+                        </div>
+                    {{/each}}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+

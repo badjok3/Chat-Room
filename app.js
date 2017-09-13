@@ -1,6 +1,7 @@
 const express = require('express');
 const config = require('./config/config');
 const app = express();
+socketEvents = require('./config/socketEvents');
 
 let env = 'development';
 require('./config/database')(config[env]);
