@@ -18,7 +18,7 @@ module.exports = (app) => {
 
 
     app.get('/conversation/conversation/:id', conversationController.getConversationByID);
-    app.post('/conversation/conversation', conversationController.getCurrentConversation);
+    app.get('/conversation/conversation', conversationController.getConversations);
     app.get('/conversation/list', conversationController.getConversations);
     app.post('/chat/create', conversationController.newConversation);
 

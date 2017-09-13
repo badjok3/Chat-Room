@@ -14,31 +14,6 @@ exports.getConversations = function (req, res, next) {
 
 };
 
-exports.getCurrentConversation = function (req, res, next) {
-
-    Conversation.find({})
-        .then(conversations => {
-
-            Conversation.findOne({'name': req.body.chatName})
-                .populate('participants')
-                .then(conversation => {
-
-                    Message.find({'conversationId': conversation._id})
-                        .populate('author')
-                        .then(messages => {
-                            messages
-                                .reverse()
-                                .forEach(m => m.date = FormatDate.formatDate(m.timestamps));
-                            res.render('conversation/conversation', {
-                                conversations: conversations,
-                                conversation: conversation,
-                                messages: messages
-                            })
-                        })
-                })
-        });
-};
-
 exports.getConversationByID = function (req, res, next) {
     let conversationId = req.params.id;
 
@@ -105,6 +80,6 @@ exports.newConversation = function (req, res, next) {
         initialMessage.save();
 
         let name = req.body.name;
-        res.redirect('/conversation/conversation?name=' + name);
+        res.redirect('/conversation/conversation');
     });
 };

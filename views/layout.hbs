@@ -48,12 +48,13 @@
 
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="" id="projectsView">
-                            My chat rooms <span class="caret"></span>
+                            Available chat rooms <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a id="dLabelActive" href="#">Chat One</a></li>
+                            {{#each conversations}}
+                            <li><a id="dLabelActive" href="/conversation/conversation/{{_id}}">{{name}}</a></li>
                             <div role="separator" class="divider"></div>
-                            <li><a id="dLabelClosed" href="#">Chat Two</a></li>
+            {{/each}}
                         </ul>
                     </li>
 
