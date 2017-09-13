@@ -107,7 +107,7 @@
 
                     <div id="chatName" class="chat-name">
                         <h3>{{conversation.name}}</h3>
-                        <p>Joined this chat room as <a href="#" class="link">Anton Mayday</a></p>
+                        <p>Joined this chat room as <a href="#" class="link"></a></p>
                         <hr>
                     </div>
 
@@ -121,7 +121,7 @@
                                          style="width:60px">
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="media-heading">{{this.author.nickname}} / {{this.date}}</h4>
+                                    <h4 class="media-heading">{{this.author.nickname}}<small>{{this.date}}</small></h4>
                                     <p>{{this.body}}</p>
                                 </div>
                             </div>
@@ -169,6 +169,9 @@
         </div>
     </div>
 
+
+
+    <!-- Users -->
     <div class="col-xs-2">
         <div class="user-list-container">
 
@@ -179,7 +182,7 @@
                    aria-expanded="false"
                    aria-controls="collapseExample">
                     Users
-                    <span class="badge pull-right">207{{publicChatRooms.count}}</span>
+                    <span class="badge pull-right">{{conversation.participants.length}}</span>
                     <span class="caret"></span>
                 </a>
 
