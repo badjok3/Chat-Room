@@ -140,12 +140,15 @@
             <!-- Send Message -->
             <div id="postMessage" class="post-message">
                 <form class="form-horizontal" action="/message/create" method="post">
-                    <!--&lt;!&ndash;  Nickname  &ndash;&gt;-->
-                    <!--<div class="form-group col-xs-4">-->
-                    <!--<label for="nickname"></label>-->
-                    <!--<input id="nickname" name="nickname" type="text" class="form-control"-->
-                    <!--placeholder="Please, enter a nickname">-->
-                    <!--</div>-->
+                    <!--  Nickname  -->
+                    {{#unless user}}
+                        <div class="form-group col-xs-4">
+                            <label for="nickname"></label>
+                            <input id="nickname" name="nickname" type="text" class="form-control"
+                                   placeholder="Please, enter a nickname">
+                        </div>
+                    {{/unless}}
+
                     <input name="inputConversationId" type="text" hidden value="{{conversation._id}}">
 
                     <!--  Message  -->
