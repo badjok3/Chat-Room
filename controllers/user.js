@@ -29,6 +29,7 @@ module.exports = {
                     email: registerArgs.email,
                     passwordHash: passwordHash,
                     fullName: registerArgs.fullName,
+                    imageUrl: registerArgs.imageUrl,
                     nickname: registerArgs.nickname,
                     salt: salt
                 };

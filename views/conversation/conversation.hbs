@@ -117,7 +117,7 @@
                         {{#each messages}}
                             <div class="media">
                                 <div class="media-left">
-                                    <img src="/images/userProfilePictures/lora.jpg" class="img-circle"
+                                    <img src="{{this.author.imageUrl}}" class="img-circle"
                                          style="width:60px">
                                 </div>
                                 <div class="media-body">
@@ -184,7 +184,7 @@
 
                     {{#each conversation.participants}}
                         <div class="list-group-item">
-                            <img src="/images/userProfilePictures/lora.jpg" class="img-logged">
+                            <img src="{{this.imageUrl}}" class="img-logged">
                             {{this.nickname}}
                         </div>
                     {{/each}}
