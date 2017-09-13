@@ -1,6 +1,6 @@
 <script>
 
-    let socket = function(io) {
+    let socket = function (io) {
         // Set socket.io listeners.
         io.on('connection', (socket) => {
             console.log('a user connected');
@@ -41,10 +41,13 @@
 
             joinButton.text('Leave');
             joinButton.parent().addClass('selected');
-        }
-    })
-</script>
 
+        }
+    });
+
+    $('.list-group-item:contains("Room 1")').addClass('selected');
+
+</script>
 
 
 <div class="container">
@@ -71,7 +74,8 @@
                         {{#each conversations}}
                             <div class="list-group-item">
                                 {{this.name}}
-                                <a id="testing" href="/conversation/conversation/{{this.id}}" class="btn btn-default btn-sm">Join</a>
+                                <a id="testing" href="/conversation/conversation/{{this.id}}"
+                                   class="btn btn-default btn-sm">Join</a>
                             </div>
                         {{/each}}
 
@@ -106,8 +110,13 @@
                 {{#if messages}}
 
                     <div id="chatName" class="chat-name">
-                        <h3>{{conversation.name}}</h3>
-                        <p>Joined this chat room as <a href="#" class="link"></a></p>
+                        <div class="col-xs-8">
+                            <h3>{{conversation.name}}</h3>
+                            <p>Joined this chat room as <a href="/user/profile" class="link">{{user.nickname}}</a></p>
+                        </div>
+                        <div class="col-xs-4">
+                            <a href="/conversation/conversation/" class="btn btn-sm btn-info pull-right">Leave Room</a>
+                        </div>
                         <hr>
                     </div>
 
@@ -121,7 +130,9 @@
                                          style="width:60px">
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="media-heading">{{this.author.nickname}} <small>/ {{this.date}}</small></h4>
+                                    <h4 class="media-heading">{{this.author.nickname}}
+                                        <small>/ {{this.date}}</small>
+                                    </h4>
                                     <p>{{this.body}}</p>
                                 </div>
                             </div>
@@ -170,10 +181,9 @@
     </div>
 
 
-
     <!-- Users -->
     <div class="col-xs-2">
-        <div class="user-list-container">
+        <div id="users" class="user-list-container" >
 
             <!-- Users List -->
             <div id="users" class="list-group scroll-bar-wrap">

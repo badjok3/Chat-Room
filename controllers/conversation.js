@@ -40,6 +40,7 @@ exports.getCurrentConversation = function (req, res, next) {
 
 exports.getConversationByID = function (req, res, next) {
     let conversationId = req.params.id;
+
     Conversation.find({})
         .then(conversations => {
 
@@ -47,29 +48,33 @@ exports.getConversationByID = function (req, res, next) {
                 .populate('participants')
                 .then(conversation => {
 
-                        Message.find({'conversationId': conversation._id})
-                            .populate('author')
-                            .then(messages => {
-                                messages
-                                    .reverse()
-                                    .forEach(m => m.date = FormatDate.formatDate(m.timestamps));
-                                res.render('conversation/conversation', {
-                                    conversations: conversations,
-                                    conversation: conversation,
-                                    messages: messages
-                                })
-                            });
-
-                    if(req.user) {
-                        User.find({fullName: req.user.fullName}).then(currentUser => {
-                            if(conversation.participants.some(p => p === currentUser._id)) {
-                                conversation.participants.splice(currentUser._id, 1);
-                            } else {
-                                conversation.participants.push(currentUser._id);
-                                conversation.save();
-                            }
-                        })
+                    let isInList = false;
+                    for (let obj of conversation.participants) {
+                        if (obj.nickname === req.user.nickname) {
+                            isInList = true;
+                            break;
+                        }
                     }
+
+                    if (!isInList) {
+                        conversation.participants.push(req.user);
+                        conversation.update();
+                        conversation.save();
+                    }
+
+                    Message.find({'conversationId': conversation._id})
+                        .populate('author')
+                        .then(messages => {
+                            messages
+                                .reverse()
+                                .forEach(m => m.date = FormatDate.formatDate(m.timestamps));
+                            res.render('conversation/conversation', {
+                                conversations: conversations,
+                                conversation: conversation,
+                                messages: messages
+                            })
+                        });
+
                 })
         });
 };
@@ -90,7 +95,7 @@ exports.newConversation = function (req, res, next) {
 
         let initialMessage = new Message({
             conversationId: conversation._id,
-            body: 'Conversation "' + conversation.name + '" has been created on ' + today.getDay() + '.' + today.getMonth() + '.' + today.getFullYear() + '!',
+            body: 'Conversation "' + conversation.name + '" has been created on ' + today.getDate() + '.' + (today.getMonth() + 1) + '.' + today.getFullYear() + '!',
             author: req.user
         });
 
