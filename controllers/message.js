@@ -20,26 +20,6 @@ exports.postMessage = function (req, res) {
                 .populate('participants')
                 .then(conversation => {
 
-                    let isInList = false;
-                    for (let obj of conversation.participants) {
-                        if (obj.nickname === req.user.nickname) {
-                            isInList = true;
-                            break;
-                        }
-                    }
-
-                    if (!isInList) {
-                        conversation.participants.push(req.user);
-                        conversation.update();
-                        conversation.save();
-                    }
-
-                    if (isInList === false) {
-                        conversation.participants.push(req.user);
-                        conversation.update();
-                        conversation.save();
-                    }
-
                     Message.find({'conversationId': conversation._id})
                         .populate('author')
                         .then(messages => {

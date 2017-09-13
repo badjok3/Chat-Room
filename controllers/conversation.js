@@ -48,18 +48,20 @@ exports.getConversationByID = function (req, res, next) {
                 .populate('participants')
                 .then(conversation => {
 
-                    let isInList = false;
-                    for (let obj of conversation.participants) {
-                        if (obj.nickname === req.user.nickname) {
-                            isInList = true;
-                            break;
+                    if (req.user) {
+                        let isInList = false;
+                        for (let obj of conversation.participants) {
+                            if (obj.nickname === req.user.nickname) {
+                                isInList = true;
+                                break;
+                            }
                         }
-                    }
 
-                    if (!isInList) {
-                        conversation.participants.push(req.user);
-                        conversation.update();
-                        conversation.save();
+                        if (!isInList) {
+                            conversation.participants.push(req.user);
+                            conversation.update();
+                            conversation.save();
+                        }
                     }
 
                     Message.find({'conversationId': conversation._id})
