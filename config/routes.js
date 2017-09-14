@@ -12,13 +12,11 @@ module.exports = (app) => {
 
     app.get('/user/login', userController.loginGet);
     app.post('/user/login', userController.loginPost);
-
     app.get('/user/logout', userController.logout);
 
-
-
     app.get('/conversation/conversation/:id', conversationController.getConversationByID);
-    app.post('/conversation/conversation', conversationController.getCurrentConversation);
+    app.get('/conversation/conversation', conversationController.getCurrentConversation);
+    app.post('/conversation/conversation', conversationController.getConversationByName);
     app.get('/conversation/list', conversationController.getConversations);
     app.post('/chat/create', conversationController.newConversation);
 

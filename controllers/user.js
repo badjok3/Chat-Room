@@ -13,7 +13,7 @@ module.exports = {
         User.findOne({email: registerArgs.email}).then(user => {
             let errorMsg = '';
             if (user) {
-                errorMsg = 'User with the same username exists!';
+                errorMsg = 'User with the same email already exists!';
             } else if (registerArgs.password !== registerArgs.repeatedPassword) {
                 errorMsg = 'Passwords do not match!'
             }

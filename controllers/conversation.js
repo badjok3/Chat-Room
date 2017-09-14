@@ -15,7 +15,30 @@ exports.getConversations = function (req, res, next) {
 };
 
 exports.getCurrentConversation = function (req, res, next) {
+    Conversation.find({})
+        .then(conversations => {
 
+            Conversation.findOne({'name': req.query.name})
+                .populate('participants')
+                .then(conversation => {
+
+                    Message.find({'conversationId': conversation._id})
+                        .populate('author')
+                        .then(messages => {
+                            messages
+                                .reverse()
+                                .forEach(m => m.date = FormatDate.formatDate(m.timestamps));
+                            res.render('conversation/conversation', {
+                                conversations: conversations,
+                                conversation: conversation,
+                                messages: messages
+                            })
+                        })
+                })
+        });
+};
+
+exports.getConversationByName = function (req, res, next) {
     Conversation.find({})
         .then(conversations => {
 
